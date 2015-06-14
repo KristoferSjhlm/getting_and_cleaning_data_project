@@ -25,6 +25,7 @@ You should create one R script called run_analysis.R that does the following.
 
 ## These files are used in the project
 
-1. The R-script "run_analysis.R" 
+1. The R-script 'run_analysis.R' 
 2. The "CodeBook.MD"-file that describe what the script does and what comes out.
+3. The tidy data text file that are the result of the 'run_analysis.R' script.
 
