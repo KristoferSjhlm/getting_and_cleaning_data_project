@@ -13,6 +13,7 @@ Here are the data for the project:
 https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
 
 You should create one R script called run_analysis.R that does the following. 
+
 1. Merges the training and the test sets to create one data set.
 
 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
@@ -27,5 +28,5 @@ You should create one R script called run_analysis.R that does the following.
 
 1. The R-script 'run_analysis.R' 
 2. The "CodeBook.MD"-file that describe what the script does and what comes out.
-3. The tidy data text file that are the result of the 'run_analysis.R' script.
+3. The 'tidy_data.txt' file that are the result of the 'run_analysis.R' script.
 
