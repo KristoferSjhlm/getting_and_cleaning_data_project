@@ -1,10 +1,12 @@
-## download and unzip the data
 print("Downloading and unzipping the data")
+
+## download and unzip the data
 fileUrl<-"https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 download.file(fileUrl,destfile="./data.zip", method="curl")
 unzip("data.zip", files = NULL, list = FALSE, overwrite = TRUE, junkpaths = FALSE, exdir ="./", unzip = "internal", setTimes = FALSE)
 
 print("Merging test and training data into one dataset")
+
 ## Generate "features" list, which will provide labels to our measures
 features<-read.table("./UCI HAR Dataset/features.txt")
 
@@ -17,7 +19,8 @@ test_activities<-read.table("./UCI HAR Dataset/test/Y_test.txt",col.names="Activ
 ## Take in "test" measure values and assign "features" list to column names
 test_set<-read.table("./UCI HAR Dataset/test/X_test.txt")
 colnames(test_set)<-features[,2]
-## Create "Original" label for data imported from "test" folder
+
+## Create "Original" label for data imported from "test" folder and give it the value "Test".
 test_labels<-as.data.frame(rep("Test",nrow(test_set)))
 colnames(test_labels)<-"Original"
 
@@ -34,7 +37,7 @@ train_activities<-read.table("./UCI HAR Dataset/train/Y_train.txt",col.names="Ac
 train_set<-read.table("./UCI HAR Dataset/train/X_train.txt")
 colnames(train_set)<-features[,2]
 
-## Create "Original" label for data imported from "train" folder
+## Create "Original" label for data imported from "train" folder and set the value to "Train".
 train_labels<-as.data.frame(rep("Train",nrow(train_set)))
 colnames(train_labels)<-"Original"
 
@@ -52,8 +55,9 @@ print("Extracting mean and std observations from the rest of the dataset")
 search <- grep("-mean|-std", colnames(full_dataset))
 data_mean_std <- full_dataset[,c(1,2,3,search)]
 
-## Take in activity labels to assign to "Activity" column
 print("Replacing the activity numeric value with labels")
+
+## Take in activity labels to assign to "Activity" column
 activity_labels<-read.table("./UCI HAR Dataset/activity_labels.txt")[2]
 
 ## Convert Activity column to character so that it can take in the new labels
@@ -61,8 +65,8 @@ data_mean_std$Activity<-as.character(data_mean_std$Activity)
 
 ## For each activity type found in "data_mean_std", replace the numeric value with its associated label
 for (x in 1:nrow(activity_labels)) {
-  label<-as.character(activity_labels[x,1])
-  data_mean_std[data_mean_std$Activity==x,]$Activity<-label
+        label<-as.character(activity_labels[x,1])
+        data_mean_std[data_mean_std$Activity==x,]$Activity<-label
 }
 
 print("Computing the means for each 'Activity' and 'Subject' and make a new dataset with the values")
@@ -74,17 +78,19 @@ full_means<-full_means[-1,]
 ## Apply mean function across each measure in “data_mean_std” for each activity and then each subject
 ## Save to "full_means" and apply associated column name
 for (x in 4:ncol(data_mean_std)) {
-  full_means<-cbind(full_means,c(sapply(split(data_mean_std[,x],data_mean_std$Activity),mean),
+        full_means<-cbind(full_means,c(sapply(split(data_mean_std[,x],data_mean_std$Activity),mean),
                                  sapply(split(data_mean_std[,x],data_mean_std$Subject),mean)))
-  colnames(full_means)[x-3]<-colnames(data_mean_std)[x]
+        colnames(full_means)[x-3]<-colnames(data_mean_std)[x]
 }
 
 ## Capture row names and assign to first column
 Type<-rownames(full_means)
 full_means<-cbind(Type,full_means)
 
-# Save the resulting dataset
 print("Writing the new tidy dataset to file 'tidy_data.txt' to the working directory")
+
+# Save the resulting dataset
 write.table(full_means, file="tidy_data.txt", row.name=FALSE)
 
 print("Done!")
+
